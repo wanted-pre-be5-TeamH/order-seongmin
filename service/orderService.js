@@ -1,6 +1,6 @@
 const { Op } = require("sequelize");
 const CustomError = require("../middleware/CustomError");
-const { order } = require("../models/");
+const { order, status } = require("../models/");
 
 const selectOrders = async () => {
   return await order.findAll();
@@ -27,8 +27,26 @@ const selectKeyword = async (key) => {
   });
 };
 
+const updateOrderStatus = async (orderId, statusWord) => {
+  const { status_id } = await status.findOne({
+    where: {
+      status: statusWord,
+    },
+  });
+
+  return await order.update(
+    { status_id },
+    {
+      where: {
+        order_id: orderId,
+      },
+    }
+  );
+};
+
 module.exports = {
   selectOrders,
   selectOrder,
   selectKeyword,
+  updateOrderStatus,
 };

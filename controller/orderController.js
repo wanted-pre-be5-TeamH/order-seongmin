@@ -2,6 +2,7 @@ const {
   selectOrders,
   selectOrder,
   selectKeyword,
+  updateOrderStatus,
 } = require("../service/orderService");
 
 const getOrders = async (req, res) => {
@@ -21,4 +22,11 @@ const getSearch = async (req, res) => {
   return res.status(200).json(results);
 };
 
-module.exports = { getOrders, getOrder, getSearch };
+const pathOrderStatus = async (req, res) => {
+  const { statusWord } = req.body;
+  const { orderId } = req.params;
+  await updateOrderStatus(orderId, statusWord);
+  return res.status(200).json({ message: "ORDER_STATUS_UPDATE" });
+};
+
+module.exports = { getOrders, getOrder, getSearch, pathOrderStatus };

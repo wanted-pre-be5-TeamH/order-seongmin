@@ -1,4 +1,8 @@
-const { selectOrders, selectOrder } = require("../service/orderService");
+const {
+  selectOrders,
+  selectOrder,
+  selectKeyword,
+} = require("../service/orderService");
 
 const getOrders = async (req, res) => {
   const orders = await selectOrders();
@@ -11,4 +15,10 @@ const getOrder = async (req, res) => {
   return res.status(200).json(order);
 };
 
-module.exports = { getOrders, getOrder };
+const getSearch = async (req, res) => {
+  const { key } = req.query;
+  const results = await selectKeyword(key);
+  return res.status(200).json(results);
+};
+
+module.exports = { getOrders, getOrder, getSearch };

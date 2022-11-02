@@ -1,4 +1,5 @@
 const { Sequelize } = require("sequelize");
+const initModels = require("./init-models");
 
 const sequelize = new Sequelize(
   process.env.DATABASE,
@@ -21,6 +22,6 @@ const test = async () => {
 
 test();
 
-module.exports = {
-  sequelize,
-};
+const models = initModels(sequelize);
+
+module.exports = models;

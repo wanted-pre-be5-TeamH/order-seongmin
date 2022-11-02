@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const CustomError = require("../middleware/CustomError");
 const { order } = require("../models/");
 
@@ -12,7 +13,22 @@ const selectOrder = async (orderId) => {
   return orderInfo;
 };
 
+const selectKeyword = async (key) => {
+  return await order.findAll({
+    where: {
+      [Op.or]: [
+        { pay_state: { [Op.like]: "%" + key + "%" } },
+        { buyr_country: { [Op.like]: "%" + key + "%" } },
+        { buyr_city: { [Op.like]: "%" + key + "%" } },
+        { buyr_zipx: { [Op.like]: "%" + key + "%" } },
+        { vccode: { [Op.like]: "%" + key + "%" } },
+      ],
+    },
+  });
+};
+
 module.exports = {
   selectOrders,
   selectOrder,
+  selectKeyword,
 };
